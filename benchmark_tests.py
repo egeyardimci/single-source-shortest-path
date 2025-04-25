@@ -72,6 +72,52 @@ def run_benchmark(sizes, repetitions=3, connectivity_range=(0.05, 0.2), seed=Non
     avg_results = {size: np.mean(times) for size, times in results.items()}
     return avg_results, results
 
+def run_connectivity_benchmark(
+    fixed_size=500, 
+    connectivity_values=None, 
+    repetitions=3,
+    num_cities=10,
+    seed=None
+):
+    if seed is not None:
+        random.seed(seed)
+
+    max_edge_count = fixed_size * (fixed_size - 1) / 2
+    
+    results = {conn: [] for conn in connectivity_values}
+    edge_counts = {conn: [] for conn in connectivity_values}
+    
+    print(f"Testing fixed vertex size: {fixed_size} with varying connectivity")
+    
+    for conn in connectivity_values:
+        print(f"\nConnectivity: {conn:.4f}")
+        for rep in range(repetitions):
+            # Generate problem instance
+            stations, edges, idx, src = generate_graph(
+                num_nodes=fixed_size,
+                connectivity=conn,
+                num_cities=num_cities,
+                weight_range=(10, 100),
+                seed=seed + rep if seed else None
+            )
+            
+            # Measure execution time
+            start_time = time.time()
+            turouist_problem(stations, edges, idx, src)
+            elapsed = time.time() - start_time
+            
+            results[conn].append(elapsed)
+            print(f"  Repetition {rep+1}/{repetitions}: {elapsed:.4f} seconds, {len(edges)} edges")
+    
+            # Track number of edges
+            edge_counts[conn].append(len(edges))
+    
+    # Calculate average times and edge counts
+    avg_results = {size*max_edge_count: np.mean(times) for size, times in results.items()}
+    
+    return avg_results, results
+
+
 def save_results(results, filename="benchmark_results.pkl"):
     """Save benchmark results to file"""
     with open(filename, 'wb') as f:
@@ -83,7 +129,7 @@ def load_results(filename="benchmark_results.pkl"):
     with open(filename, 'rb') as f:
         return pickle.load(f)
 
-if __name__ == "__main__":
+def size_benchmark():
     # Define problem sizes to test - at least 5 different sizes as requested
     # Creating 10 different sizes for better curve fitting
     sizes = [
@@ -113,3 +159,41 @@ if __name__ == "__main__":
     save_results((avg_results, raw_results))
     
     print("\nBenchmark complete. Results saved as benchmark_results.pkl and benchmark_results.png")
+
+def connectivity_benchmark():
+     # Fixed vertex size
+    FIXED_SIZE = 1200
+    
+    # Define connectivity values to test (at least 10 different values)
+    connectivity_values = [
+        0.01, 0.02, 0.03, 0.05, 0.07,  # Sparse graphs
+        0.1, 0.15, 0.2, 0.25, 0.3,     # Medium density
+        0.4, 0.5, 0.6, 0.7, 0.8        # Dense graphs
+    ]
+    
+    # Number of repetitions per connectivity value
+    repetitions_per_conn = 4  # 15 connectivity values * 4 repetitions = 60 total instances
+    
+    # Run benchmarks
+    print(f"Running connectivity benchmark suite with fixed vertex size {FIXED_SIZE}")
+    print(f"Testing {len(connectivity_values)} connectivity values with {repetitions_per_conn} repetitions each")
+    print(f"Total instances: {len(connectivity_values) * repetitions_per_conn}")
+    
+    # Run the benchmarks
+    avg_results, raw_results= run_connectivity_benchmark(
+        fixed_size=FIXED_SIZE,
+        connectivity_values=connectivity_values,
+        repetitions=repetitions_per_conn,
+        num_cities=10,
+        seed=42
+    )
+    
+    # Save results
+    save_results((avg_results, raw_results),filename="connectivity_benchmark_results.pkl")
+    
+    print("\nConnectivity benchmark complete.")
+    print("Results saved as connectivity_benchmark_results.pkl")
+    print("Plots saved as connectivity_benchmark.png")
+
+if __name__ == "__main__":
+    connectivity_benchmark()

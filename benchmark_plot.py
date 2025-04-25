@@ -23,7 +23,7 @@ def plot_benchmark_results(avg_results):
 
     # Add labels and styling
     plt.title("Algorithm Performance Benchmark (Log Scale)", fontsize=16)
-    plt.xlabel("Problem Size (Number of Nodes)", fontsize=14)
+    plt.xlabel("Problem Size (Number of Edges)", fontsize=14)
     plt.ylabel("Execution Time (seconds)", fontsize=14)
     plt.grid(True, alpha=0.3, which='both')  # Grid lines for both major and minor ticks
     plt.legend(fontsize=12)
@@ -39,5 +39,6 @@ def load_results(filename="benchmark_results.pkl"):
     with open(filename, 'rb') as f:
         return pickle.load(f)
 # Example usage:
-avg_results, results = load_results("benchmark_results.pkl")
+avg_results, results = load_results("connectivity_benchmark_results.pkl")
+print(avg_results)
 plot_benchmark_results(avg_results)
