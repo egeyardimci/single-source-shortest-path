@@ -1,0 +1,11 @@
+dist = [0, 1, 6, 7, 12, 17]
+        ↑  ↑  ↑  ↑   ↑   ↑
+       st1 st2 st3 st4  st5  st6
+
+Min by city:
+
+A: min(0, 1) = 0
+
+B: min(6, 7) = 6
+
+C: min(12, 17) = 12

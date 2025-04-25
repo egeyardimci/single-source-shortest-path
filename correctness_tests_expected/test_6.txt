@@ -1,0 +1,5 @@
+dist = [0, 4, 3, 8]
+        ↑  ↑  ↑  ↑
+       st1 st2 st3 st4
+
+Min by city: A=0, B=4, C=3, D=8

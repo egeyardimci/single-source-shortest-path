@@ -1,10 +1,11 @@
-This test is the problem given in assignment description
-Expected output is:
+dist = [0,    30,   100,  210,  220]
+        ↑     ↑     ↑     ↑     ↑
+       Harem Bostanci Merkez YHT  Yeni
 
-Shortest travel time to Bursa: 100 minutes
-Route: Harem-Istanbul -> Merkez-Bursa
-Segment times: [100]
+Min by city:
 
-Shortest travel time to Eskisehir: 210 minutes
-Route: Harem-Istanbul -> Bostanci-Istanbul -> YHT-Eskisehir
-Segment times: [30, 180]
+Istanbul: min(0, 30) = 0
+
+Bursa: 100
+
+Eskişehir: min(210, 220) = 210

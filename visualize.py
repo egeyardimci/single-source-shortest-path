@@ -2,13 +2,6 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 def visualize_graph(stations, edges):
-    """
-    Visualize a directed weighted graph with edge lengths proportional to travel times.
-
-    Args:
-        stations: List of station names.
-        edges: List of tuples (u, v, w) where u, v are indices into stations, and w is the travel time.
-    """
     G = nx.DiGraph()
     # Add nodes
     for name in stations:

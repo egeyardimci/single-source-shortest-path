@@ -1,0 +1,5 @@
+dist = [0, 20, 30, 40, 50]
+        ↑   ↑   ↑   ↑   ↑
+       st1 st2 st3 st4 st5
+
+Min by city: H=0, A=20, B=30, C=40, D=50

@@ -2,6 +2,9 @@ import math
 import time
 import correctness_tests
 from visualize import visualize_graph
+import sys
+
+sys.setrecursionlimit(10**6)
 
 def turouist_problem(stations, edges, idx, source):
     n = len(stations)
@@ -33,6 +36,7 @@ def turouist_problem(stations, edges, idx, source):
     start_time = time.time()
     dist = bellman_ford_recursive(n-1, edges, n, src)
     end_time = time.time()
+    time_taken = end_time - start_time
     print(f"Time taken: {end_time - start_time:.20f} seconds")
 
     def trace_route(station):
@@ -70,8 +74,11 @@ def turouist_problem(stations, edges, idx, source):
             print(f"\nShortest travel time to {city} from {source}: {travel_time} minutes")
             print(f"Route: {' -> '.join([item for item in route if isinstance(item, str)])}")
             print(f"Segment times: {[item for item in route if isinstance(item, int)]}")
+    return time_taken , dist
 
 if __name__ == "__main__":
-    stations, edges, idx, source = correctness_tests.test_9()
-    turouist_problem(stations, edges, idx, source)
+    tests = correctness_tests.tests
+    stations, edges, idx, source = tests[8]()
+    time_taken , dist = turouist_problem(stations, edges, idx, source)
+    print(f"Last row of distance matrix: {dist}")
     visualize_graph(stations,edges)
