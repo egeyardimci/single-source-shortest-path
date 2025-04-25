@@ -16,6 +16,8 @@ def visualize_graph(stations, edges):
     # Add weighted edges with inverted weights for spring layout
     for u, v, w in edges:
         # 'weight' retained for label, 'spring_weight' used for layout
+        if(w == 0):
+            w = 1e-10
         G.add_edge(stations[u], stations[v], weight=w, spring_weight=1.0 / w)
 
     # Compute layout: stronger springs (smaller times) pull nodes closer

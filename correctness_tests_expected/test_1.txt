@@ -1,0 +1,10 @@
+This test is the problem given in assignment description
+Expected output is:
+
+Shortest travel time to Bursa: 100 minutes
+Route: Harem-Istanbul -> Merkez-Bursa
+Segment times: [100]
+
+Shortest travel time to Eskisehir: 210 minutes
+Route: Harem-Istanbul -> Bostanci-Istanbul -> YHT-Eskisehir
+Segment times: [30, 180]
